@@ -1,5 +1,6 @@
 package com.mission3.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -22,8 +23,10 @@ public class Pet {
 
     private String description;
 
-    @NotNull
-    private boolean isExotic;
+    //@Data -> @Getter property name is getIsActive @Setter property name is setIsActive
+    //@JsonProperty to uses the field name to determine the property name
+    @JsonProperty("isExotic")
+    private boolean isExotic = false;
 
     @NotNull
     private double price;

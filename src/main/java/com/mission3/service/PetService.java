@@ -3,6 +3,7 @@ package com.mission3.service;
 import com.mission3.model.Pet;
 import com.mission3.repository.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,5 +29,23 @@ public class PetService {
     public Pet createPet(Pet pet) {
         pet.setId(null);
         return petRepository.save(pet);
+    }
+
+    public Optional<Pet> updatePet(Long id, Pet pet) {
+        Optional<Pet> petOptional = petRepository.findById(id);
+        if(!petOptional.isPresent()) {
+            return petOptional;
+        }
+        pet.setId(id);
+        return Optional.of(petRepository.save(pet));
+    }
+
+    public boolean deletePet(Long id) {
+        try {
+            petRepository.deleteById(id);
+            return true;
+        } catch (EmptyResultDataAccessException e) {
+            return false;
+        }
     }
 }
